@@ -1,8 +1,10 @@
 # What is it
 
-keywords: **SpringBoot 1.5.9**, **RabbitMQ**, **testcontainers**, **integrations tests**.
+keywords: **SpringBoot 1.5.9**, **RabbitMQ**, **testcontainers**, **integrations tests**, **docker**.
 
 This sample describes how to run SpringBoot tests with a real rabbitmq to ensure that expected queues will be created following application setup. 
+
+`testcontainers` is used to manage docker virtual machine creation. It expose random port to host. It allows injection of dynamic variables. You can have a look to test part to see it.
 
 ## How to run
 
@@ -30,5 +32,8 @@ I should check this link https://github.com/testcontainers/testcontainers-java/i
 ## References
 
 > RabbitMQ rest api : https://pulse.mozilla.org/api/
-
+>
+> testcontainers : https://www.testcontainers.org/
+>
+> testcontainers Spring Boot : https://github.com/testcontainers/testcontainers-spring-boot
 
