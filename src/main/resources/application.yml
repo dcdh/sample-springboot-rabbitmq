@@ -1,0 +1,26 @@
+spring:
+  application:
+    name: sample-rabbitmq
+  cloud:
+    stream:
+      bindings:
+        sampleChannel:
+          binder: rabbit
+          destination: live.fpl
+          content-type: application/json
+          group: sample-channel
+      rabbit:
+        bindings:
+          sampleChannel:
+            consumer:
+              bindingRoutingKey: live
+              autoBindDlq: true
+              republishToDlq: true
+---
+spring:
+  profiles: with-replay
+  cloud:
+    stream:
+      bindings:
+        sampleChannel:
+          destination: replay.fpl,live.fpl
