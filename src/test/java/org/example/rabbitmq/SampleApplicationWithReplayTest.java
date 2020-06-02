@@ -78,4 +78,74 @@ public class SampleApplicationWithReplayTest {
                 .body("[3].name", equalTo("replay.fpl.sample-channel.dlq"))
                 .body("[3].vhost", equalTo("/"));
     }
+
+    @Test
+    public void should_bind() {
+        RestAssured.given()
+                .auth().basic(user, password)
+                .baseUri("http://" + host + ":" + apiPort)
+                .when()
+                .log().all()
+                .get("/api/bindings")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("[0].source", equalTo(""))
+                .body("[0].vhost", equalTo("/"))
+                .body("[0].destination", equalTo("live.fpl.sample-channel"))
+                .body("[0].destination_type", equalTo("queue"))
+                .body("[0].routing_key", equalTo("live.fpl.sample-channel"))
+                .body("[0].properties_key", equalTo("live.fpl.sample-channel"))
+
+                .body("[1].source", equalTo(""))
+                .body("[1].vhost", equalTo("/"))
+                .body("[1].destination", equalTo("live.fpl.sample-channel.dlq"))
+                .body("[1].destination_type", equalTo("queue"))
+                .body("[1].routing_key", equalTo("live.fpl.sample-channel.dlq"))
+                .body("[1].properties_key", equalTo("live.fpl.sample-channel.dlq"))
+
+                .body("[2].source", equalTo(""))
+                .body("[2].vhost", equalTo("/"))
+                .body("[2].destination", equalTo("replay.fpl.sample-channel"))
+                .body("[2].destination_type", equalTo("queue"))
+                .body("[2].routing_key", equalTo("replay.fpl.sample-channel"))
+                .body("[2].properties_key", equalTo("replay.fpl.sample-channel"))
+
+                .body("[3].source", equalTo(""))
+                .body("[3].vhost", equalTo("/"))
+                .body("[3].destination", equalTo("replay.fpl.sample-channel.dlq"))
+                .body("[3].destination_type", equalTo("queue"))
+                .body("[3].routing_key", equalTo("replay.fpl.sample-channel.dlq"))
+                .body("[3].properties_key", equalTo("replay.fpl.sample-channel.dlq"))
+
+                .body("[4].source", equalTo("DLX"))
+                .body("[4].vhost", equalTo("/"))
+                .body("[4].destination", equalTo("live.fpl.sample-channel.dlq"))
+                .body("[4].destination_type", equalTo("queue"))
+                .body("[4].routing_key", equalTo("live.fpl.sample-channel"))
+                .body("[4].properties_key", equalTo("live.fpl.sample-channel"))
+
+                .body("[5].source", equalTo("DLX"))
+                .body("[5].vhost", equalTo("/"))
+                .body("[5].destination", equalTo("replay.fpl.sample-channel.dlq"))
+                .body("[5].destination_type", equalTo("queue"))
+                .body("[5].routing_key", equalTo("replay.fpl.sample-channel"))
+                .body("[5].properties_key", equalTo("replay.fpl.sample-channel"))
+
+                .body("[6].source", equalTo("live.fpl"))
+                .body("[6].vhost", equalTo("/"))
+                .body("[6].destination", equalTo("live.fpl.sample-channel"))
+                .body("[6].destination_type", equalTo("queue"))
+                .body("[6].routing_key", equalTo("live"))
+                .body("[6].properties_key", equalTo("live"))
+
+                .body("[7].source", equalTo("replay.fpl"))
+                .body("[7].vhost", equalTo("/"))
+                .body("[7].destination", equalTo("replay.fpl.sample-channel"))
+                .body("[7].destination_type", equalTo("queue"))
+                .body("[7].routing_key", equalTo("live"))
+                .body("[7].properties_key", equalTo("live"))
+        ;
+    }
+
 }

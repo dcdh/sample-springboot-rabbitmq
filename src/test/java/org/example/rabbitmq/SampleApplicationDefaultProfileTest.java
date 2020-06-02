@@ -65,4 +65,44 @@ public class SampleApplicationDefaultProfileTest {
                 .body("[1].vhost", equalTo("/"));
     }
 
+    @Test
+    public void should_bind() {
+        RestAssured.given()
+                .auth().basic(user, password)
+                .baseUri("http://" + host + ":" + apiPort)
+                .when()
+                .log().all()
+                .get("/api/bindings")
+                .then()
+                .log().all()
+                .statusCode(200)
+                .body("[0].source", equalTo(""))
+                .body("[0].vhost", equalTo("/"))
+                .body("[0].destination", equalTo("live.fpl.sample-channel"))
+                .body("[0].destination_type", equalTo("queue"))
+                .body("[0].routing_key", equalTo("live.fpl.sample-channel"))
+                .body("[0].properties_key", equalTo("live.fpl.sample-channel"))
+
+                .body("[1].source", equalTo(""))
+                .body("[1].vhost", equalTo("/"))
+                .body("[1].destination", equalTo("live.fpl.sample-channel.dlq"))
+                .body("[1].destination_type", equalTo("queue"))
+                .body("[1].routing_key", equalTo("live.fpl.sample-channel.dlq"))
+                .body("[1].properties_key", equalTo("live.fpl.sample-channel.dlq"))
+
+                .body("[2].source", equalTo("DLX"))
+                .body("[2].vhost", equalTo("/"))
+                .body("[2].destination", equalTo("live.fpl.sample-channel.dlq"))
+                .body("[2].destination_type", equalTo("queue"))
+                .body("[2].routing_key", equalTo("live.fpl.sample-channel"))
+                .body("[2].properties_key", equalTo("live.fpl.sample-channel"))
+
+                .body("[3].source", equalTo("live.fpl"))
+                .body("[3].vhost", equalTo("/"))
+                .body("[3].destination", equalTo("live.fpl.sample-channel"))
+                .body("[3].destination_type", equalTo("queue"))
+                .body("[3].routing_key", equalTo("live"))
+                .body("[3].properties_key", equalTo("live"))
+        ;
+    }
 }
