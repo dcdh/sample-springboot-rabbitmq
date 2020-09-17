@@ -26,8 +26,7 @@ I use a rabbimq image with management plugin - which expose a rest api - to quer
 
 As we defined `TESTCONTAINERS_RYUK_DISABLED` as disabled, docker containers will remain running after running tests.
 1. I found it convenient for debugging purpose when creating my tests to understand how rabbitmq works;
-1. I have got a bug on my computer preventing container to be managed by `RYUK`. Maybe this is du to a permission issue as it need to be run as privileged container (https://www.testcontainers.org/supported_docker_environment/continuous_integration/bitbucket_pipelines/)
-I should check this link https://github.com/testcontainers/testcontainers-java/issues/1274 however if running in an OKD env I should not be able to run it as privileged container.
+1. I have got a bug on my computer preventing container to be managed by `RYUK`. This is due to the usage of an older version of docker (1.13). It is working fine with docker 19.03.12.
 
 ## References
 
